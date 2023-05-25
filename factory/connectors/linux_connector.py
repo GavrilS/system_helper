@@ -7,31 +7,27 @@ class LinuxConnector():
         self.host = host
         self.user = user
         self.password = password
-        self.ssh = None
-        self.stdin = None
-        self.stdout = None
-        self.stderr = None
 
     def create_connection(self):
-        try:
-            ssh = paramiko.SSHClient()
-            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            ssh.connect(hostname=self.host, username=self.user,
-                        password=self.password)
-            self.ssh = ssh
-        except Exception as e:
-            print("Couldn't set up conenction to the server: ", str(e))
+        ssh = paramiko.SSHClient()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        ssh.connect(hostname=self.host, username=self.user,
+                    password=self.password)
+        # self.ssh = ssh
+        print("Connection created!")
+        return ssh
 
     def execute_command(self, command):
         try:
-            shell = self.ssh.invoke_shell()
+            ssh = self.create_connection()
+            shell = ssh.invoke_shell()
             # shell.send(command + "\n")
-            self.stdin, self.stdout, self.stderr = shell.exec_command(command)
+            stdin, stdout, stderr = shell.exec_command(command)
+            self.close_connection(ssh)
+            return stdout, stderr, stdin
         except Exception as e:
             print(f"Command - {command} failed:\n", str(e))
 
-    def close_connection(self):
-        try:
-            self.ssh.close()
-        except Exception as e:
-            print('Failed to close the connection:\n', str(e))
+    def close_connection(self, ssh):
+        ssh.close()
+        print('Connection closed!')
