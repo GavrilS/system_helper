@@ -1,4 +1,4 @@
-import sys
+import subprocess
 
 
 class LocalConnector():
@@ -7,14 +7,6 @@ class LocalConnector():
         pass
 
     def execute_command(self, command):
-        os = sys.platform()
-        if 'linux' in os:
-            self.execute_linux_command(command)
-        elif 'win32' in os:
-            self.execute_win_command(command)
-
-    def execute_linux_command(command):
-        pass
-
-    def execute_win_command(command):
-        pass
+        command_args = command.split(' ')
+        result = subprocess.run(command_args, capture_output=True, text=True)
+        return result.stdout, result.stderr, ''
