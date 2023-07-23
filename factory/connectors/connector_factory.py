@@ -1,4 +1,6 @@
-import LinuxConnector, LocalConnector, WindowsConnector
+from linux_connector import LinuxConnector
+from windows_connector import WindowsConnector
+from local_connector import LocalConnector
 
 class ConnectorFactory():
 
@@ -11,5 +13,5 @@ class ConnectorFactory():
             return LocalConnector()
         elif 'windows' in key.lower():
             return WindowsConnector(host, user, password)
-        else:
+        elif 'linux' in key.lower():
             return LinuxConnector(host, user, password) 
