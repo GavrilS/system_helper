@@ -5,11 +5,11 @@ import sys
 #     print(line)
 
 # sys.path.append('/mnt/c/Users/Gari/git/system_helper')
-# sys.path.append('/mnt/c/Users/Gari/git/system_helper')
+sys.path.append('/mnt/c/Users/Gari/git/system_helper')
 
 
-# for line in sys.path:
-#     print(line)
+for line in sys.path:
+    print(line)
 
 from factory.connectors.connector_factory import ConnectorFactory
 

@@ -1,6 +1,6 @@
-from linux_connector import LinuxConnector
-from windows_connector import WindowsConnector
-from local_connector import LocalConnector
+from factory.connectors.linux_connector import LinuxConnector
+from factory.connectors.windows_connector import WindowsConnector
+from factory.connectors.local_connector import LocalConnector
 
 class ConnectorFactory():
 
