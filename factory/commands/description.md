@@ -83,3 +83,86 @@
 ### System resources command
 
 https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.diagnostics/get-counter?view=powershell-7.3
+
+  <!-- Get-Counter uses the ListSet parameter with an asterisk (*) to get the list of counter sets. The dot (.) in the MachineName column represents the local computer -->
+
+Get-Counter -ListSet \*
+
+  <!-- Get-Counter uses the Counter parameter to specify the counter path \Processor(_Total)\% Processor Time. The SampleInterval parameter sets a two-second interval to check the counter. MaxSamples determines that three is the maximum number of times to check the counter. -->
+
+Get-Counter -Counter "\Processor(\_Total)\% Processor Time" -SampleInterval 2 -MaxSamples 3
+
+  <!-- Get-Counter uses the Counter parameter to specify the \Processor\% Processor Time counter. The Continuous parameter specifies to get samples every second until the command is stopped with CTRL+C. -->
+
+Get-Counter -Counter "\Processor(\_Total)\% Processor Time" -Continuous
+
+  <!-- This example uses the pipeline to get the counter list set and then sort the list in alphabetical order. -->
+  <!-- Get-Counter -ListSet * |
+  Sort-Object -Property CounterSetName |
+    Format-Table CounterSetName, CounterSetType -AutoSize -->
+
+  <!-- In this example, Start-Job runs a Get-Counter command as a background job on the local computer. To view the performance counter output from the job, use the Receive-Job cmdlet. -->
+
+Start-Job -ScriptBlock {Get-Counter -Counter "\LogicalDisk(\_Total)\% Free Space" -MaxSamples 1000}
+
+  <!-- This example uses a variable to get performance counter data from two computers. -->
+
+$DiskReads = "\LogicalDisk(C:)\Disk Reads/sec"
+$DiskReads | Get-Counter -ComputerName Server01, Server02 -MaxSamples 10
+
+  <!-- In this example, a single value is returned for each performance counter in the local computer's Memory counter set. -->
+
+$MemCounters = (Get-Counter -ListSet Memory).Paths
+Get-Counter -Counter $MemCounters
+
+  <!-- Get a list of memory counters -->
+
+Get-Counter '\Memory\Available MBytes'
+Get-Counter '\Processor(\_Total)\% Processor Time'
+Get-Counter -ListSet _memory_ | Select-Object -ExpandProperty Counter
+
+  <!-- CPU load. -->
+
+Get-WmiObject Win32_Processor | Select LoadPercentage | Format-List
+Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average | Select Average
+
+  <!-- Script format -->
+  <!-- $totalRam = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property capacity -Sum).Sum
+while($true) {
+    $date = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    $cpuTime = (Get-Counter '\Processor(_Total)\% Processor Time').CounterSamples.CookedValue
+    $availMem = (Get-Counter '\Memory\Available MBytes').CounterSamples.CookedValue
+    $date + ' > CPU: ' + $cpuTime.ToString("#,0.000") + '%, Avail. Mem.: ' + $availMem.ToString("N0") + 'MB (' + (104857600 * $availMem / $totalRam).ToString("#,0.0") + '%)'
+    Start-Sleep -s 2
+} -->
+
+### System processes commands:
+
+<!-- This command gets a list of all active processes running on the local computer -->
+
+Get-Process
+
+<!-- Get available data per process -->
+
+Get-Process winword, explorer | Format-List \*
+
+  <!-- List processes with priority -->
+
+$A = Get-Process
+$A | Get-Process | Format-Table -View priority
+
+  <!-- Find the owner -->
+
+Get-Process pwsh -IncludeUserName
+
+### Network configurations
+
+<!-- The Get-NetIPConfiguration cmdlet gets network configuration, including usable interfaces, IP addresses, and DNS servers.
+
+If you do not specify any parameters, this cmdlet gets IP configuration properties for all non-virtual connected interfaces on a computer. -->
+
+Get-NetIPConfiguration
+
+Get-NetIPConfiguration -All
+
+Get-NetIPConfiguration -Verbose
