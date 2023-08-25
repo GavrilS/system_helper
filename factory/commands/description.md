@@ -15,6 +15,8 @@
     firewall-cmd --list-services [FirewallD]
     firewall-cmd --list-ports
 
+# WINDOWS:
+
 - List windows services - https://www.techtarget.com/searchenterprisedesktop/photostory/4500257331/Top-Windows-command-line-commands/5/Query-the-status-of-services-with-sc-query-state-all
 
   https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/sc-query
