@@ -1,6 +1,14 @@
 from sys import platform
 import sys
-from factory.commands.windows_commands import Windows
+import platform
+from factory.commands.system_commands import SystemCommands, os_command_factory
+
+OS = platform.platform()
+OS = 'Windows'
+
+print('OS: ', OS)
+
+# exit()
 
 # for line in sys.path:
 #     print(line)
@@ -43,7 +51,11 @@ def main():
     #     f.write('Extra:' + '*'*40)
     #     f.write(str(_))
 
-    Windows.list_commands()
+    os_command_list = os_command_factory.get_os_type_list(OS)
+    system_commands = SystemCommands(os_command_list)
+    print('1 Added the relevant classes')
+    system_commands.list_commands()
+    print('2. After showing commands')
 
 
 
