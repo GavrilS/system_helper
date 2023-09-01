@@ -1,5 +1,5 @@
 from . import command_list
-from exceptions import CommandNotFound
+from utilities.exceptions import CommandNotFound
 
 
 class OSCommandLists():
