@@ -1,4 +1,5 @@
 from . import command_list
+from exceptions import CommandNotFound
 
 
 class OSCommandLists():
@@ -22,26 +23,32 @@ class SystemCommands():
 
     def __init__(self, os_command_list):
         self._os_command_list = os_command_list
+        self._commands_short = self._get_commands_short()
 
     def list_commands(self):
-        # print('attr: value')
-        # for attr in self._os_command_list:
-        #     print(f"{attr}: {self._os_command_list.__dict__[attr]}")
-
-        # print('Members: ')
-        # for attr in self._os_command_list.__dict__['_member_names_']:
-        #     print(f"{attr}: {getattr(self._os_command_list, attr)}")
-        
         commands = []
         for e in self._os_command_list:
-            print('E: ', e)
+            # print('E: ', e)
             for x in e.value:
                 commands.append(x[0] + ' : ' + x[1])
 
-        # commands2 = [x[0] + " : " + x[1] for x in e.value for e in self._os_command_list]
-        # print('Commands2: ',commands2)
         for c in commands:
             print(c)
+
+        return commands
+    
+
+    def get_command(self, cmd):
+        if cmd in self._commands_short:
+            return cmd
+        else:
+            raise CommandNotFound
+    
+    def _get_commands_short(self):
+        commands = []
+        for c in self._os_command_list:
+            for x in c.value:
+                commands.append(x[0])
 
         return commands
 
