@@ -1,4 +1,3 @@
-from sys import platform
 import sys
 import platform
 from factory.commands.system_commands import SystemCommands, os_command_factory
@@ -23,10 +22,6 @@ for line in sys.path:
 
 from factory.connectors.connector_factory import ConnectorFactory
 
-# test_command = 'systemctl list-units --type=service'
-# test_command = 'net start'
-# test_command = 'sc query state= all'
-test_command = 'powershell -Command Get-Service'
 
 
 def main():
