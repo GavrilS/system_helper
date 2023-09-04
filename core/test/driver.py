@@ -1,5 +1,4 @@
 import sys
-from handlers.user_operations import UserUI
 
 # exit()
 
@@ -9,6 +8,7 @@ from handlers.user_operations import UserUI
 # sys.path.append('/mnt/c/Users/Gari/git/system_helper')
 sys.path.append('C:\\Users\\Gari\\git\\system_helper')
 
+from handlers.user_operations import UserUI
 
 # for line in sys.path:
 #     print(line)
